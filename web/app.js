@@ -1323,9 +1323,12 @@ let PDFViewerApplication = {
     // in the 'rotationchanging' event handler.
   },
 
-  rotateSinglePage(num, delta) {
+  rotateSinglePage(delta, num) {
     if (!this.pdfDocument) {
       return;
+    }
+    if (!num) {
+      num = this.pdfViewer._currentPageNumber;
     }
     let pageView = this.pdfViewer._pages[num];
     let newRotation = (pageView.rotation + 360 + delta) % 360;
@@ -2386,7 +2389,7 @@ function webViewerKeyDown(evt) {
         break;
 
       case 82: // 'r'
-        PDFViewerApplication.rotatePages(90);
+        PDFViewerApplication.rotateSinglePage(90);
         break;
 
       case 115: // F4
@@ -2424,7 +2427,7 @@ function webViewerKeyDown(evt) {
         break;
 
       case 82: // 'r'
-        PDFViewerApplication.rotatePages(-90);
+        PDFViewerApplication.rotateSinglePage(-90);
         break;
     }
   }
