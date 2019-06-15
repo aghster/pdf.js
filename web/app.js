@@ -1323,6 +1323,18 @@ let PDFViewerApplication = {
     // in the 'rotationchanging' event handler.
   },
 
+  rotateSinglePage(num, delta) {
+    if (!this.pdfDocument) {
+      return;
+    }
+    let pageView = this.pdfViewer._pages[num];
+    let newRotation = (pageView.rotation + 360 + delta) % 360;
+    if (!isValidRotation(newRotation)) {
+      throw new Error('Invalid pages rotation angle.');
+    }
+    update(pageView.scale, newRotation);
+  },
+
   requestPresentationMode() {
     if (!this.pdfPresentationMode) {
       return;
